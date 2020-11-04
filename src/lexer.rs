@@ -41,4 +41,32 @@ impl Lexer {
 			self.advance();
 		}
 	}
+
+	fn advance(&mut self) {
+		self.advance_char();
+	}
+
+	fn advance_char(&mut self) {
+		if self.chars.len() > 0 {
+			self.cchar = self.chars.remove(0).to_string();
+		} else {
+			self.advance_textline()
+		}
+	}
+
+	fn advance_textline(&mut self) {
+		if self.textlines.len() > 0 {
+			let textline = self.textlines.remove(0);
+			if textline.is_empty() {
+				self.advance_textline();
+			} else {
+				self.chars = textline.chars().map(|c: char| c).collect();
+				self.advance_char();
+			}
+		} else {
+			if self.chars.len() == 0 {
+				self.cchar = String::new();
+			}
+		}
+	}
 }
