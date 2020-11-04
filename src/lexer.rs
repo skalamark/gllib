@@ -101,4 +101,35 @@ impl Lexer {
 }
 
 #[cfg(test)]
-mod tests {}
+mod tests {
+
+	use super::{EnvLexer, Lexer};
+	use crate::token::Token;
+
+	fn make_lexer(source: &str) -> Lexer {
+		Lexer::new(source.to_string())
+	}
+
+	#[test]
+	fn it_works() {
+		assert_eq!(
+			make_lexer(""),
+			Lexer {
+				env: EnvLexer {},
+				cchar: "".to_string(),
+				chars: vec![],
+				textlines: vec![]
+			}
+		);
+	}
+
+	#[test]
+	fn source_empty() {
+		assert_eq!(make_lexer("").run().unwrap(), vec![Token::Eof]);
+	}
+
+	#[test]
+	fn source_spaces() {
+		assert_eq!(make_lexer("\r\n\t ").run().unwrap(), vec![Token::Eof]);
+	}
+}
