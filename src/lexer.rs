@@ -69,4 +69,15 @@ impl Lexer {
 			}
 		}
 	}
+
+	fn make_token(&mut self) -> Result<Token, String> {
+		if self.cchar.is_empty() {
+			Ok(Token::Eof)
+		} else if SPACES.contains(&self.cchar.as_str()) {
+			self.advance();
+			self.make_token()
+		} else {
+			Err(format!("SyntaxError: invalid character in identifier"))
+		}
+	}
 }
