@@ -80,4 +80,22 @@ impl Lexer {
 			Err(format!("SyntaxError: invalid character in identifier"))
 		}
 	}
+
+	pub fn run(&mut self) -> Result<Vec<Token>, String> {
+		let mut tokens: Vec<Token> = Vec::new();
+		self.init_fields();
+		loop {
+			match self.make_token() {
+				Ok(token) => {
+					let is_eof: bool = token.is_eof();
+					tokens.push(token);
+					if is_eof {
+						break;
+					}
+				}
+				Err(details) => return Err(details),
+			}
+		}
+		Ok(tokens)
+	}
 }
