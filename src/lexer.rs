@@ -32,4 +32,13 @@ impl Lexer {
 			textlines,
 		}
 	}
+
+	fn init_fields(&mut self) {
+		while self.cchar.is_empty() {
+			if self.chars.len() == 0 && self.textlines.len() == 0 {
+				break;
+			}
+			self.advance();
+		}
+	}
 }
