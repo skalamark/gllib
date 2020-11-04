@@ -99,3 +99,6 @@ impl Lexer {
 		Ok(tokens)
 	}
 }
+
+#[cfg(test)]
+mod tests {}
