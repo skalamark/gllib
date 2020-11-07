@@ -1,4 +1,4 @@
-use crate::token::{Token, SPACES};
+use crate::token::{Token, PUNCTUATIONS, SPACES};
 
 #[derive(Debug, PartialEq)]
 struct EnvLexer {}
@@ -76,6 +76,13 @@ impl Lexer {
 		} else if SPACES.contains(&self.cchar.as_str()) {
 			self.advance();
 			self.make_token()
+		} else if PUNCTUATIONS.contains(&self.cchar.as_str()) {
+			if self.cchar == ";" {
+				self.advance();
+				return Ok(Token::SemiColon);
+			}
+
+			self.make_token()
 		} else {
 			Err(format!("SyntaxError: invalid character in identifier"))
 		}
@@ -131,5 +138,13 @@ mod tests {
 	#[test]
 	fn source_spaces() {
 		assert_eq!(make_lexer("\r\n\t ").run().unwrap(), vec![Token::Eof]);
+	}
+
+	#[test]
+	fn source_punctuations() {
+		assert_eq!(
+			make_lexer(";").run().unwrap(),
+			vec![Token::SemiColon, Token::Eof]
+		);
 	}
 }
