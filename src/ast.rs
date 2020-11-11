@@ -1,5 +1,7 @@
 #[derive(Debug, PartialEq)]
-pub enum Statement {}
+pub enum Statement {
+	Expression(Expression),
+}
 
 #[derive(Debug, PartialEq)]
 pub enum Expression {}
