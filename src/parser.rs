@@ -10,3 +10,16 @@ pub struct Parser {
 	ctoken: Token,
 	tokens: Vec<Token>,
 }
+
+impl Parser {
+	pub fn new(mut tokens: Vec<Token>) -> Self {
+		let env: EnvParser = EnvParser {};
+		let ctoken: Token = tokens.remove(0);
+
+		Parser {
+			env,
+			ctoken,
+			tokens,
+		}
+	}
+}
