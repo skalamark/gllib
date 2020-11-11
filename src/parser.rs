@@ -22,4 +22,10 @@ impl Parser {
 			tokens,
 		}
 	}
+
+	fn advance(&mut self) {
+		if self.tokens.len() > 0 {
+			self.ctoken = self.tokens.remove(0);
+		}
+	}
 }
