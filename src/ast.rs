@@ -4,4 +4,6 @@ pub enum Statement {
 }
 
 #[derive(Debug, PartialEq)]
-pub enum Expression {}
+pub enum Expression {
+	Integer(u8),
+}
