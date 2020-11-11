@@ -1,10 +1,13 @@
 pub const SPACES: &str = "\r\n\t ";
+pub const DIGITS: &str = "0123456789";
 pub const PUNCTUATIONS: &str = ";";
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Token {
 	Eof,
 	SemiColon,
+	NewLine,
+	Integer(String),
 }
 
 impl Token {
