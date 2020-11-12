@@ -24,6 +24,13 @@ impl Token {
 			_ => false,
 		}
 	}
+
+	pub fn is_newline(&self) -> bool {
+		match self {
+			Token::NewLine => true,
+			_ => false,
+		}
+	}
 }
 
 pub fn string_is_token(character: String) -> bool {
