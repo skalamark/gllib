@@ -108,3 +108,6 @@ impl Parser {
 		Ok(ast)
 	}
 }
+
+#[cfg(test)]
+mod tests {}
