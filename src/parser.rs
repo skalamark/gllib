@@ -110,4 +110,98 @@ impl Parser {
 }
 
 #[cfg(test)]
-mod tests {}
+mod tests {
+
+	use super::{EnvParser, Parser};
+	use crate::ast::{Expression, Statement};
+	use crate::lexer::Lexer;
+	use crate::token::Token;
+
+	fn make_parser(source: &str) -> Parser {
+		let mut lexer: Lexer = Lexer::new(source.to_string());
+		let tokens: Vec<Token> = lexer.run().unwrap();
+		Parser::new(tokens)
+	}
+
+	#[test]
+	fn it_works() {
+		assert_eq!(
+			make_parser(""),
+			Parser {
+				env: EnvParser {},
+				ctoken: Token::Eof,
+				tokens: vec![],
+			}
+		);
+	}
+
+	#[test]
+	fn source_empty() {
+		assert_eq!(make_parser("").run().unwrap(), vec![]);
+	}
+
+	#[test]
+	fn source_spaces() {
+		assert_eq!(make_parser(" ").run().unwrap(), vec![]);
+		assert_eq!(make_parser("\r").run().unwrap(), vec![]);
+		assert_eq!(make_parser("\n").run().unwrap(), vec![]);
+		assert_eq!(make_parser("\t").run().unwrap(), vec![]);
+
+		assert_eq!(make_parser("\r\n\t ").run().unwrap(), vec![]);
+	}
+
+	#[test]
+	fn source_punctuations() {
+		fn punctuations() {
+			assert_eq!(make_parser(";").run().is_err(), true);
+		}
+
+		fn with_spaces() {
+			assert_eq!(make_parser("; \n;\r;\t;").run().is_err(), true);
+		}
+
+		fn with_integers() {
+			assert_eq!(
+				make_parser("1;35;57;87;").run().unwrap(),
+				vec![
+					Statement::Expression(Expression::Integer(1)),
+					Statement::Expression(Expression::Integer(35)),
+					Statement::Expression(Expression::Integer(57)),
+					Statement::Expression(Expression::Integer(87)),
+				]
+			);
+		}
+
+		punctuations();
+		with_spaces();
+		with_integers();
+	}
+
+	#[test]
+	fn source_integers() {
+		assert_eq!(
+			make_parser("012").run().unwrap(),
+			vec![Statement::Expression(Expression::Integer(12))]
+		);
+
+		assert_eq!(
+			make_parser(" 34\n45\n;94\r;48\t; 35 ;53 ").run().unwrap(),
+			vec![
+				Statement::Expression(Expression::Integer(34)),
+				Statement::Expression(Expression::Integer(45)),
+				Statement::Expression(Expression::Integer(94)),
+				Statement::Expression(Expression::Integer(48)),
+				Statement::Expression(Expression::Integer(35)),
+				Statement::Expression(Expression::Integer(53)),
+			]
+		);
+
+		assert_eq!(
+			make_parser("05;67;").run().unwrap(),
+			vec![
+				Statement::Expression(Expression::Integer(5)),
+				Statement::Expression(Expression::Integer(67)),
+			]
+		);
+	}
+}
