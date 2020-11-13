@@ -3,6 +3,12 @@ name = "gllib"
 version = "0.1.0-alpha"
 authors = ["JoseCarlosSkar <josecarlosskar@gmail.com>"]
 edition = "2018"
+readme = "README.md"
+description = "Library for interpreting the glanguage scripting language"
+repository = "https://github.com/skalamark/gllib/"
+license = "MIT"
+license-file = "LICENSE"
+keywords = ["glanguage", "gllib", "gl", "gllite", "glfmt", "glc"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
