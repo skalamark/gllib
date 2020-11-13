@@ -8,7 +8,7 @@ description = "Library for interpreting the glanguage scripting language"
 repository = "https://github.com/skalamark/gllib/"
 license = "MIT"
 license-file = "LICENSE"
-keywords = ["glanguage", "gllib", "gl", "gllite", "glfmt", "glc"]
+keywords = ["glanguage", "gl"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
